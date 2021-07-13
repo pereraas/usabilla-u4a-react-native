@@ -3,19 +3,17 @@ import { Platform, PixelRatio, StyleSheet, SafeAreaView,Text, TextInput, View, I
 import usabilla from 'usabilla-react-native';
 import { bgImage,logo } from './assets/images';
 import { BackHandler } from 'react-native';
+import {openFeedbackForm} from "./feedbackFormService";
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\nCmd+D or shake for dev menu',
   android: 'Double tap R on your keyboard to reload,\nShake or press menu button for dev menu',
 })
-
-/// Usabilla Configuration
-// Replace appId with your usabilla app id.
-const appId = "[YOUR_APP_ID_HERE]";
-// Replace FormId with your usabilla form id.
-const formId = "[YOUR_FORM_ID_HERE]";
-// Replace custom variable with your usabilla custom variable created for targeting specific Campaign..
-const customVars = {"Key": "Value"};
+//const appId = "47b06c69-d8f2-433d-9e70-dcd4914b230f";
+const formId = "5fbb39bfb93e6a6b101a3267";
+const originCustomerId = "12345"
+const originCustomerEmail = "asankadp@yahoo.com"
+const customVars = { originCustomerId, originCustomerEmail };
 
 var isFormVisible = false;
 
@@ -24,20 +22,6 @@ export default class App extends Component<{}> {
     super()
     this.state = {text: ''}
     this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-    usabilla.initialize(appId);
-    usabilla.setDataMasking(usabilla.getDefaultDataMasks(), 'X');
-    usabilla.setCustomVariables(customVars);
-    usabilla.setFormDidLoadSuccessfully((reminder) => {
-      isFormVisible = true
-      console.log("successfull loading form: ", reminder)
-      }
-    );
-    usabilla.setFormDidFailLoading((reminder) => console.log("Error loading form: ", reminder));
-    usabilla.setFormDidClose((reminder) => { 
-      isFormVisible = false
-      console.log("Form closed: ", reminder)
-    });
-    usabilla.setCampaignDidClose((reminder) => console.log("Campaign closed: ",JSON.stringify(reminder)))
   }
 
   componentDidMount() {
@@ -64,7 +48,8 @@ export default class App extends Component<{}> {
   }
 
   requestFormWithDefaultScreenshot() {
-    usabilla.loadFeedbackFormWithCurrentViewScreenshot(formId);
+    console.log("calling openFeedbackForm")
+    openFeedbackForm(formId, originCustomerId, originCustomerEmail)
   }
 
   render() {
