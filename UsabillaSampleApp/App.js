@@ -47,7 +47,7 @@ export default class App extends Component<{}> {
    usabilla.sendEvent(event)
   }
 
-  requestFormWithDefaultScreenshot() {
+  loadFeedbackForm() {
     console.log("calling openFeedbackForm")
     openFeedbackForm(formId, originCustomerId, originCustomerEmail)
   }
@@ -64,7 +64,7 @@ export default class App extends Component<{}> {
           </View>
           <View style={styles.middle}>
             <View style={styles.showForm}>
-              <TouchableWithoutFeedback onPress={this.requestFormWithDefaultScreenshot}>
+              <TouchableWithoutFeedback onPress={this.loadFeedbackForm}>
                 <View style={styles.buttonShowForm}>
                   <Text style={styles.textShowForm}>SHOW FORM</Text>
                 </View>
